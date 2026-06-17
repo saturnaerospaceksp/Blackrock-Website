@@ -24,13 +24,30 @@
     }
   });
 
-  /* ---------- Scroll-reveal animations ---------- */
+  /* ---------- Sticky header scroll state ---------- */
+  const header = document.querySelector(".site-header");
+  if (header) {
+    const onScroll = function () {
+      header.classList.toggle("scrolled", window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  /* ---------- Scroll-reveal animations (staggered) ---------- */
   const revealEls = document.querySelectorAll(".reveal");
   const revealObserver = new IntersectionObserver(function (entries) {
     entries.forEach(function (entry) {
       if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        revealObserver.unobserve(entry.target);
+        const el = entry.target;
+        // Stagger siblings that enter together for a sequential reveal
+        const siblings = Array.prototype.slice.call(
+          el.parentElement ? el.parentElement.querySelectorAll(":scope > .reveal") : [el]
+        );
+        const idx = Math.max(0, siblings.indexOf(el));
+        el.style.transitionDelay = Math.min(idx * 70, 350) + "ms";
+        el.classList.add("visible");
+        revealObserver.unobserve(el);
       }
     });
   }, { threshold: 0.15 });
@@ -65,43 +82,6 @@
   }, { threshold: 0.5 });
 
   statEls.forEach(function (el) { statObserver.observe(el); });
-
-  /* ---------- Contact form (client-side only) ---------- */
-  const form = document.getElementById("contactForm");
-  const status = document.getElementById("formStatus");
-
-  if (form) form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    let valid = true;
-    const fields = form.querySelectorAll("input, textarea");
-
-    fields.forEach(function (field) {
-      const ok = field.checkValidity() && field.value.trim() !== "";
-      field.classList.toggle("invalid", !ok);
-      if (!ok) valid = false;
-    });
-
-    if (!valid) {
-      status.textContent = "Please fill in all fields with a valid email address.";
-      status.className = "form-status error";
-      return;
-    }
-
-    // No backend; acknowledge locally and reset.
-    status.textContent = "Thanks, " + form.name.value.trim() +
-      "! Your message has been recorded. We'll be in touch soon.";
-    status.className = "form-status success";
-    form.reset();
-    fields.forEach(function (field) { field.classList.remove("invalid"); });
-  });
-
-  // Clear the error styling as the user types
-  if (form) form.addEventListener("input", function (e) {
-    if (e.target.classList.contains("invalid") && e.target.checkValidity()) {
-      e.target.classList.remove("invalid");
-    }
-  });
 
   /* ---------- Footer year ---------- */
   document.getElementById("year").textContent = new Date().getFullYear();

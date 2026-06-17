@@ -8,10 +8,12 @@
   <link rel="icon" type="image/webp" href="img/favicon.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <canvas id="bg-waves" aria-hidden="true"></canvas>
 
   <header class="site-header" id="top">
     <nav class="nav container">
@@ -26,7 +28,7 @@
         <li><a href="index.html#about">About</a></li>
         <li><a href="phoebe.html" class="active">Phoebe</a></li>
         <li><a href="careers.html">Careers</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="book.html">Book a Launch</a></li>
       </ul>
     </nav>
   </header>
@@ -106,7 +108,7 @@
         <h2 class="reveal">Want to help fly her?</h2>
         <div class="phoebe-actions reveal">
           <a href="careers.html" class="btn btn-primary">Join the Team</a>
-          <a href="index.html#contact" class="btn btn-ghost">Plan a Mission</a>
+          <a href="book.html" class="btn btn-ghost">Plan a Mission</a>
         </div>
       </div>
     </section>
@@ -121,6 +123,7 @@
     </div>
   </footer>
 
+  <script src="js/waves.js"></script>
   <script src="js/script.js"></script>
 </body>
 </html>
